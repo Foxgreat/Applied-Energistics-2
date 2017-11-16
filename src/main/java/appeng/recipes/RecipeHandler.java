@@ -63,7 +63,6 @@ import appeng.items.materials.ItemMaterial;
 import appeng.items.misc.ItemCrystalSeed;
 import appeng.items.parts.ItemPart;
 import appeng.recipes.handlers.IWebsiteSerializer;
-import appeng.recipes.handlers.OreRegistration;
 
 
 /**
@@ -562,23 +561,6 @@ public class RecipeHandler implements IRecipeHandler
 					else
 					{
 						throw new RecipeException( "Group must have exactly 1 output, and 1 or more inputs." );
-					}
-				}
-				else if( operation.equals( "ore" ) )
-				{
-					final List<String> pre = this.tokens.subList( 0, split - 1 );
-					final List<String> post = this.tokens.subList( split, this.tokens.size() );
-
-					final List<List<IIngredient>> inputs = this.parseLines( pre );
-
-					if( inputs.size() == 1 && inputs.get( 0 ).size() > 0 && post.size() == 1 )
-					{
-						final ICraftHandler ch = new OreRegistration( inputs.get( 0 ), post.get( 0 ) );
-						this.addCrafting( ch );
-					}
-					else
-					{
-						throw new RecipeException( "Group must have exactly 1 output, and 1 or more inputs in a single row." );
 					}
 				}
 				else

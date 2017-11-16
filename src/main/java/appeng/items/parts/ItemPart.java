@@ -43,6 +43,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.OreDictionary;
 
 import appeng.api.AEApi;
 import appeng.api.implementations.items.IItemGroup;
@@ -115,6 +116,11 @@ public final class ItemPart extends AEBaseItem implements IPartItem, IItemGroup
 		final PartTypeWithVariant pti = new PartTypeWithVariant( mat, varID );
 
 		this.processMetaOverlap( enabled, partDamage, mat, pti );
+
+		if( mat.getOreName() != null && !mat.getOreName().isEmpty() )
+		{
+			OreDictionary.registerOre( mat.getOreName(), output.stack( 1 ) );
+		}
 
 		return output;
 	}
