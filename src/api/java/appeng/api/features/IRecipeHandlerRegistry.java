@@ -58,7 +58,6 @@ public interface IRecipeHandlerRegistry
 	 *
 	 * @param sir sub item resolver
 	 */
-	@Deprecated
 	void addNewSubItemResolver( ISubItemResolver sir );
 
 	/**
