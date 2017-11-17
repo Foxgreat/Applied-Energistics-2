@@ -77,7 +77,6 @@ import appeng.api.networking.spatial.ISpatialCache;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.networking.ticking.ITickManager;
 import appeng.api.parts.IPartHelper;
-import appeng.api.recipes.IRecipeHandler;
 import appeng.bootstrap.ICriterionTriggerRegistry;
 import appeng.bootstrap.IModelRegistry;
 import appeng.bootstrap.components.IBlockRegistrationComponent;
@@ -102,6 +101,7 @@ import appeng.core.worlddata.SpatialDimensionManager;
 import appeng.hooks.TickHandler;
 import appeng.items.materials.ItemMaterial;
 import appeng.items.parts.ItemFacade;
+import appeng.items.parts.ItemPart;
 import appeng.loot.ChestLoot;
 import appeng.me.cache.CraftingGridCache;
 import appeng.me.cache.EnergyGridCache;
@@ -114,20 +114,8 @@ import appeng.me.cache.TickManagerCache;
 import appeng.parts.PartPlacement;
 import appeng.recipes.AEItemResolver;
 import appeng.recipes.AERecipeLoader;
-import appeng.recipes.CustomRecipeConfig;
-import appeng.recipes.RecipeHandler;
 import appeng.recipes.game.DisassembleRecipe;
 import appeng.recipes.game.FacadeRecipe;
-import appeng.recipes.handlers.Crusher;
-import appeng.recipes.handlers.Grind;
-import appeng.recipes.handlers.HCCrusher;
-import appeng.recipes.handlers.Inscribe;
-import appeng.recipes.handlers.Macerator;
-import appeng.recipes.handlers.MekCrusher;
-import appeng.recipes.handlers.MekEnrichment;
-import appeng.recipes.handlers.Press;
-import appeng.recipes.handlers.Pulverizer;
-import appeng.recipes.handlers.Smelt;
 import appeng.recipes.ores.OreDictionaryHandler;
 import appeng.spatial.BiomeGenStorage;
 import appeng.spatial.StorageWorldProvider;
@@ -142,15 +130,6 @@ final class Registration
 	int storageDimensionID;
 	Biome storageBiome;
 	AdvancementTriggers advancementTriggers;
-
-	private File recipeDirectory;
-	private CustomRecipeConfig customRecipeConfig;
-
-	public void setRecipeInformation( File f, CustomRecipeConfig f2 )
-	{
-		this.recipeDirectory = f;
-		this.customRecipeConfig = f2;
-	}
 
 	void preInitialize( final FMLPreInitializationEvent event )
 	{
@@ -222,26 +201,13 @@ final class Registration
 	private void registerCraftHandlers( final IRecipeHandlerRegistry registry )
 	{
 		registry.addNewSubItemResolver( new AEItemResolver() );
-
-		registry.addNewCraftHandler( "hccrusher", HCCrusher.class );
-		registry.addNewCraftHandler( "mekcrusher", MekCrusher.class );
-		registry.addNewCraftHandler( "mekechamber", MekEnrichment.class );
-		registry.addNewCraftHandler( "grind", Grind.class );
-		registry.addNewCraftHandler( "crusher", Crusher.class );
-		registry.addNewCraftHandler( "pulverizer", Pulverizer.class );
-		registry.addNewCraftHandler( "macerator", Macerator.class );
-
-		registry.addNewCraftHandler( "smelt", Smelt.class );
-		registry.addNewCraftHandler( "inscribe", Inscribe.class );
-		registry.addNewCraftHandler( "press", Press.class );
 	}
 
-	public void initialize( @Nonnull final FMLInitializationEvent event, @Nonnull final File recipeDirectory, @Nonnull final CustomRecipeConfig customRecipeConfig )
+	public void initialize( @Nonnull final FMLInitializationEvent event, @Nonnull final File recipeDirectory )
 	{
 		Preconditions.checkNotNull( event );
 		Preconditions.checkNotNull( recipeDirectory );
 		Preconditions.checkArgument( !recipeDirectory.isFile() );
-		Preconditions.checkNotNull( customRecipeConfig );
 
 		final Api api = Api.INSTANCE;
 		final IPartHelper partHelper = api.partHelper();
@@ -331,6 +297,7 @@ final class Registration
 
 		// Perform ore camouflage!
 		ItemMaterial.instance.makeUnique();
+		ItemPart.instance.registerOreDicts();
 
 		if( AEConfig.instance().isFeatureEnabled( AEFeature.ENABLE_DISASSEMBLY_CRAFTING ) )
 		{
@@ -351,12 +318,6 @@ final class Registration
 
 		final AERecipeLoader ldr = new AERecipeLoader();
 		ldr.loadProcessingRecipes();
-		
-		// load machine recipes
-		final IRecipeHandler recipeHandler = new RecipeHandler();
-		final Runnable recipeLoader = new RecipeLoader( this.recipeDirectory, this.customRecipeConfig, recipeHandler );
-		recipeLoader.run();
-		recipeHandler.injectRecipes();
 	}
 
 	@SubscribeEvent

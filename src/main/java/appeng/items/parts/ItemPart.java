@@ -33,6 +33,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -116,11 +117,6 @@ public final class ItemPart extends AEBaseItem implements IPartItem, IItemGroup
 		final PartTypeWithVariant pti = new PartTypeWithVariant( mat, varID );
 
 		this.processMetaOverlap( enabled, partDamage, mat, pti );
-
-		if( mat.getOreName() != null && !mat.getOreName().isEmpty() )
-		{
-			OreDictionary.registerOre( mat.getOreName(), output.stack( 1 ) );
-		}
 
 		return output;
 	}
@@ -359,6 +355,22 @@ public final class ItemPart extends AEBaseItem implements IPartItem, IItemGroup
 			}
 
 			return comparedString;
+		}
+	}
+
+	public void registerOreDicts()
+	{
+		for( final PartTypeWithVariant mt : ImmutableSet.copyOf( this.registered.values() ) )
+		{
+			if( mt.part.getOreName() != null )
+			{
+				final String[] names = mt.part.getOreName().split( "," );
+
+				for( final String name : names )
+				{
+					OreDictionary.registerOre( name, new ItemStack( this, 1, mt.part.getBaseDamage() + mt.variant ) );
+				}
+			}
 		}
 	}
 

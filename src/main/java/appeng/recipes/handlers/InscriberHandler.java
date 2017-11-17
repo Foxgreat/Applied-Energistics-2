@@ -1,12 +1,12 @@
+
 package appeng.recipes.handlers;
 
-import java.util.Collections;
+
 import java.util.List;
 
 import com.google.gson.JsonObject;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.JsonContext;
@@ -20,51 +20,53 @@ import appeng.api.features.InscriberProcessType;
 import appeng.recipes.IAERecipeFactory;
 import appeng.recipes.factories.recipes.PartRecipeFactory;
 
-public class InscriberFactory implements IAERecipeFactory
+
+public class InscriberHandler implements IAERecipeFactory
 {
 
 	@Override
 	public void register( JsonObject json, JsonContext ctx )
-	{		
+	{
 		ItemStack result = PartRecipeFactory.getResult( json, ctx );
-		String mode  = JsonUtils.getString( json, "mode" );
-		List<ItemStack> middle = Arrays.asList( CraftingHelper.getIngredient( JsonUtils.getJsonObject( json, "middle" ), ctx ).getMatchingStacks() );
-		
+		String mode = JsonUtils.getString( json, "mode" );
+
+		JsonObject ingredients = JsonUtils.getJsonObject( json, "ingredients" );
+
+		List<ItemStack> middle = Arrays.asList( CraftingHelper.getIngredient( ingredients.get( "middle" ), ctx ).getMatchingStacks() );
 		ItemStack[] top = new ItemStack[] { null };
-		if ( json.has( "top" ))
+		if( ingredients.has( "top" ) )
 		{
-			top = CraftingHelper.getIngredient( JsonUtils.getJsonObject( json, "top" ), ctx ).getMatchingStacks();			
+			top = CraftingHelper.getIngredient( JsonUtils.getJsonObject( ingredients, "top" ), ctx ).getMatchingStacks();
 		}
 
 		ItemStack[] bottom = new ItemStack[] { null };
-		if ( json.has( "bottom" ))
+		if( ingredients.has( "bottom" ) )
 		{
-			bottom = CraftingHelper.getIngredient( JsonUtils.getJsonObject( json, "bottom" ), ctx ).getMatchingStacks();			
+			bottom = CraftingHelper.getIngredient( JsonUtils.getJsonObject( ingredients, "bottom" ), ctx ).getMatchingStacks();
 		}
-		
-		
+
 		final IInscriberRegistry reg = AEApi.instance().registries().inscriber();
-		for (int i = 0; i < top.length; ++i)
+		for( int i = 0; i < top.length; ++i )
 		{
-			for (int j = 0; j < bottom.length; ++j)
+			for( int j = 0; j < bottom.length; ++j )
 			{
-				final IInscriberRecipeBuilder builder = reg.builder();		
+				final IInscriberRecipeBuilder builder = reg.builder();
 				builder.withOutput( result );
 				builder.withProcessType( "press".equals( mode ) ? InscriberProcessType.PRESS : InscriberProcessType.INSCRIBE );
 				builder.withInputs( middle );
-				
-				if ( top[i] != null )
+
+				if( top[i] != null )
 				{
 					builder.withTopOptional( top[i] );
 				}
-				if ( bottom[j] != null )
+				if( bottom[j] != null )
 				{
 					builder.withBottomOptional( bottom[j] );
 				}
-				
+
 				reg.addRecipe( builder.build() );
 			}
-		}		
+		}
 	}
 
 }

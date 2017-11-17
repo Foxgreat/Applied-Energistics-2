@@ -45,7 +45,7 @@ public enum MaterialType
 	CERTUS_QUARTZ_CRYSTAL_CHARGED( 1, "material_certus_quartz_crystal_charged", EnumSet.of( AEFeature.CERTUS ), EntityChargedQuartz.class ),
 
 	CERTUS_QUARTZ_DUST( 2, "material_certus_quartz_dust", EnumSet.of( AEFeature.DUSTS, AEFeature.CERTUS ), "dustCertusQuartz" ),
-	NETHER_QUARTZ_DUST( 3, "material_nether_quartz_dust", EnumSet.of( AEFeature.DUSTS ), "dustNetherQuartz" ),
+	NETHER_QUARTZ_DUST( 3, "material_nether_quartz_dust", EnumSet.of( AEFeature.DUSTS ), "dustNetherQuartz,dustQuartz" ),
 	FLOUR( 4, "material_flour", EnumSet.of( AEFeature.FLOUR ), "dustWheat" ),
 	GOLD_DUST( 51, "material_gold_dust", EnumSet.of( AEFeature.DUSTS ), "dustGold" ),
 	IRON_DUST( 49, "material_iron_dust", EnumSet.of( AEFeature.DUSTS ), "dustIron" ),

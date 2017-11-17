@@ -4,16 +4,18 @@
 	"result": {
 		"part": "material.logic_processor"
 	},
-	"top": {
-		"type": "appliedenergistics2:part",
-		"part": "material.logic_processor_print"
-	},
-	"middle": {
-		"type": "forge:ore_dict",
-		"ore": "dustRedstone"
-	},
-	"bottom": {
-		"type": "appliedenergistics2:part",
-		"part": "material.silicon_print"
+	"ingredients": {
+		"top": {
+			"type": "appliedenergistics2:part",
+			"part": "material.logic_processor_print"
+		},
+		"middle": {
+			"type": "forge:ore_dict",
+			"ore": "dustRedstone"
+		},
+		"bottom": {
+			"type": "appliedenergistics2:part",
+			"part": "material.silicon_print"
+		}
 	}
 }
