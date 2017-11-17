@@ -12,7 +12,6 @@ import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.JsonContext;
 
-
 import appeng.api.AEApi;
 import appeng.api.features.IInscriberRecipeBuilder;
 import appeng.api.features.IInscriberRegistry;

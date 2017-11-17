@@ -98,13 +98,6 @@ public final class AppEng
 	private File configDirectory;
 
 	/**
-	 * Folder for recipes
-	 *
-	 * used for CSV item names and the recipes
-	 */
-	private File recipeDirectory;
-
-	/**
 	 * determined in pre-init but used in init
 	 */
 	private ExportConfig exportConfig;
@@ -217,7 +210,7 @@ public final class AppEng
 		{
 			if( FMLCommonHandler.instance().getSide().isClient() )
 			{
-				final ExportProcess process = new ExportProcess( this.recipeDirectory, this.exportConfig );
+				final ExportProcess process = new ExportProcess( this.configDirectory, this.exportConfig );
 				final Thread exportProcessThread = new Thread( process );
 
 				this.startService( "AE2 CSV Export", exportProcessThread );
@@ -228,7 +221,7 @@ public final class AppEng
 			}
 		}
 
-		this.registration.initialize( event, this.recipeDirectory );
+		this.registration.initialize( event, this.configDirectory );
 		IntegrationRegistry.INSTANCE.init();
 
 		AELog.info( "Initialization ( ended after " + start.elapsed( TimeUnit.MILLISECONDS ) + "ms )" );
