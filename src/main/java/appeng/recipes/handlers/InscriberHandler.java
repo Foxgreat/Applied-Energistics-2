@@ -2,6 +2,7 @@
 package appeng.recipes.handlers;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.JsonObject;
@@ -11,7 +12,6 @@ import net.minecraft.util.JsonUtils;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.common.crafting.JsonContext;
 
-import scala.actors.threadpool.Arrays;
 
 import appeng.api.AEApi;
 import appeng.api.features.IInscriberRecipeBuilder;
