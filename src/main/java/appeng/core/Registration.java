@@ -159,10 +159,6 @@ final class Registration
 		final IRecipeHandlerRegistry recipeRegistry = api.registries().recipes();
 		this.registerCraftHandlers( recipeRegistry );
 
-		// RecipeSorter.register( "AE2-Facade", FacadeRecipe.class, Category.SHAPED, "" );
-		// RecipeSorter.register( "AE2-Shaped", ShapedRecipe.class, Category.SHAPED, "" );
-		// RecipeSorter.register( "AE2-Shapeless", ShapelessRecipe.class, Category.SHAPELESS, "" );
-
 		MinecraftForge.EVENT_BUS.register( OreDictionaryHandler.INSTANCE );
 
 		ApiDefinitions definitions = api.definitions();
@@ -254,19 +250,6 @@ final class Registration
 		definitions.getRegistry().getBootstrapComponents( IOreDictComponent.class ).forEachRemaining( b -> b.oreRegistration( event.getSide() ) );
 		definitions.getRegistry().getBootstrapComponents( IInitComponent.class ).forEachRemaining( b -> b.initialize( event.getSide() ) );
 
-		//
-		// // Perform ore camouflage!
-		// ItemMaterial.instance.makeUnique();
-
-		// final Runnable recipeLoader = new RecipeLoader( recipeDirectory, customRecipeConfig, this.recipeHandler );
-		// recipeLoader.run();
-
-		// if( IntegrationRegistry.INSTANCE.isEnabled( IntegrationType.OpenComputers ) )
-		// {
-		// partHelper.registerNewLayer( "appeng.parts.layers.LayerSidedEnvironment",
-		// "li.cil.oc.api.network.SidedEnvironment" );
-		// }
-
 		MinecraftForge.EVENT_BUS.register( TickHandler.INSTANCE );
 
 		MinecraftForge.EVENT_BUS.register( new PartPlacement() );
@@ -352,8 +335,6 @@ final class Registration
 		{
 			DisassembleRecipe r = new DisassembleRecipe();
 			registry.register( r.setRegistryName( AppEng.MOD_ID.toLowerCase(), "disassemble" ) );
-			// RecipeSorter.register( "appliedenergistics2:disassemble", DisassembleRecipe.class, Category.SHAPELESS,
-			// "after:minecraft:shapeless" );
 		}
 
 		if( AEConfig.instance().isFeatureEnabled( AEFeature.ENABLE_FACADE_CRAFTING ) )
@@ -362,8 +343,6 @@ final class Registration
 			{
 				FacadeRecipe f = new FacadeRecipe( (ItemFacade) facadeItem );
 				registry.register( f.setRegistryName( AppEng.MOD_ID.toLowerCase(), "facade" ) );
-				// RecipeSorter.register( "appliedenergistics2:facade", FacadeRecipe.class, Category.SHAPED,
-				// "after:minecraft:shaped" );
 			} );
 		}
 
@@ -556,11 +535,6 @@ final class Registration
 		{
 			registries.worldgen().enableWorldGenForDimension( WorldGenType.METEORITES, dimension );
 		}
-
-		/*
-		 * initial recipe bake, if ore dictionary changes after this it re-bakes.
-		 */
-		OreDictionaryHandler.INSTANCE.bakeRecipes();
 	}
 
 	private static class ModelLoaderWrapper implements IModelRegistry
