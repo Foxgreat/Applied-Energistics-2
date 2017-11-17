@@ -113,6 +113,7 @@ import appeng.me.cache.SpatialPylonCache;
 import appeng.me.cache.TickManagerCache;
 import appeng.parts.PartPlacement;
 import appeng.recipes.AEItemResolver;
+import appeng.recipes.AERecipeLoader;
 import appeng.recipes.CustomRecipeConfig;
 import appeng.recipes.RecipeHandler;
 import appeng.recipes.game.DisassembleRecipe;
@@ -348,6 +349,9 @@ final class Registration
 
 		definitions.getRegistry().getBootstrapComponents( IRecipeRegistrationComponent.class ).forEachRemaining( b -> b.recipeRegistration( side, registry ) );
 
+		final AERecipeLoader ldr = new AERecipeLoader();
+		ldr.loadProcessingRecipes();
+		
 		// load machine recipes
 		final IRecipeHandler recipeHandler = new RecipeHandler();
 		final Runnable recipeLoader = new RecipeLoader( this.recipeDirectory, this.customRecipeConfig, recipeHandler );

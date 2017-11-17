@@ -30,6 +30,7 @@ import appeng.api.exceptions.RecipeException;
 import appeng.api.exceptions.RegistrationException;
 import appeng.api.recipes.ICraftHandler;
 import appeng.api.recipes.IIngredient;
+import appeng.recipes.IAERecipeFactory;
 import appeng.recipes.RecipeHandler;
 import appeng.util.Platform;
 
